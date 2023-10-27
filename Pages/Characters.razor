@@ -1,0 +1,32 @@
+﻿@page "/characters"
+
+@using MauiAppBlazor.Services;
+@using MauiAppBlazor.Models;
+
+@inject IRickAndMortyService service
+
+<h1>Personajes de RickAndMorty</h1>
+<p>Este componente demuestra cómo obtener datos de un servicio.</p>
+
+@if (_rickAndMorty == null)
+{
+    <p><em>Cargando...</em></p>
+}else
+{
+    @foreach (var result in _rickAndMorty.results)
+    {
+        <div>
+            <h4>@result.name</h4>
+            <img src="@result.image">
+        </div>
+    }
+}
+
+@code {
+    private RickAndMorty _rickAndMorty;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _rickAndMorty = await service.Get();
+    }
+}
